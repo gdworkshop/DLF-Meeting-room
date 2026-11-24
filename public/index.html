@@ -9,62 +9,152 @@
 @media (prefers-color-scheme:dark){:root{--bg:#171716;--card:#222220;--tx:#eeede8;--mu:#a09f97;--bd:#3a3935;--ac:#7fb0ea;--act:#10233b;--bad:#f2928b;--ok:#5ccf95;--tod:#1f2c3d}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-main{max-width:980px;margin:0 auto;padding:16px}
+main{max-width:1050px;margin:0 auto;padding:16px}
 header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
 h1{font-size:20px;margin:0}h2{font-size:16px;margin:0 0 8px}.mu{color:var(--mu);font-size:13px}
-nav{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
-button,input,select{font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--bd);border-radius:6px;padding:7px 10px}
+button,input,select,textarea{font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--bd);border-radius:6px;padding:7px 10px}
 button{cursor:pointer}button.p{background:var(--ac);color:var(--act);border-color:var(--ac)}button.on{border-color:var(--ac);color:var(--ac);font-weight:600}button.d{color:var(--bad);border-color:var(--bad)}
 .card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:12px}
-.row{display:flex;flex-wrap:wrap;gap:8px;align-items:end}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 label{display:flex;flex-direction:column;font-size:12px;color:var(--mu);gap:3px}
-.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}.dh{font-size:12px;color:var(--mu);text-align:center}
-.day{min-height:64px;border:1px solid var(--bd);border-radius:6px;padding:4px;text-align:left;background:var(--card);overflow:hidden;font-size:12px}
-.day.t{background:var(--tod)}.day.s{border-color:var(--ac);outline:1px solid var(--ac)}.day.x{opacity:.45}.day.e{visibility:hidden}
-.cnt{color:var(--ac);display:block;margin-top:2px}.bk{border-top:1px solid var(--bd);padding:8px 0}.bk:first-child{border-top:0}
-.msg{padding:8px 10px;border-radius:6px;margin-bottom:10px;border:1px solid var(--bd)}.msg.err{color:var(--bad);border-color:var(--bad)}
-.tl{overflow-x:auto}.tlin{min-width:660px}
+.rn{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px}
+.rn div{border:1px solid var(--bd);border-radius:8px;padding:8px}
+.ok{color:var(--ok);font-weight:600}.no{color:var(--bad);font-weight:600}
+.chip{display:block;width:100%;text-align:left;background:var(--ac);color:var(--act);border:0;border-radius:4px;font-size:11px;padding:2px 5px;margin-top:3px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.scr{overflow-x:auto}
+.wk,.mo{display:grid;grid-template-columns:repeat(7,minmax(110px,1fr));gap:4px;min-width:780px}
+.cell{border:1px solid var(--bd);border-radius:6px;padding:4px;min-height:90px;font-size:12px;background:var(--card)}
+.cell.t{background:var(--tod)}.cell.x{opacity:.5}.cell b{cursor:pointer}
+.dh{font-size:12px;color:var(--mu);text-align:center}
 .tlh{position:relative;height:18px;margin-left:110px;font-size:11px;color:var(--mu)}.tlh span{position:absolute;transform:translateX(-50%)}
-.tlr{display:flex;align-items:center;margin-bottom:6px}.tn{width:110px;flex:none;font-size:13px;padding-right:6px}
-.trk{position:relative;flex:1;height:34px;border:1px solid var(--bd);border-radius:6px;overflow:hidden;background:repeating-linear-gradient(90deg,transparent 0,transparent calc(100%/14 - 1px),var(--bd) calc(100%/14 - 1px),var(--bd) calc(100%/14))}
-.bar{position:absolute;top:3px;bottom:3px;background:var(--ac);color:var(--act);border-radius:4px;font-size:11px;padding:2px 4px;overflow:hidden;white-space:nowrap}
+.tlr{display:flex;align-items:center;margin-bottom:6px}.tn{width:110px;flex:none;font-size:13px}
+.trk{position:relative;flex:1;height:36px;border:1px solid var(--bd);border-radius:6px;overflow:hidden}
+.bar{position:absolute;top:3px;bottom:3px;background:var(--ac);color:var(--act);border-radius:4px;font-size:11px;padding:2px 4px;overflow:hidden;white-space:nowrap;cursor:pointer;border:0}
 .nowl{position:absolute;top:0;bottom:0;width:2px;background:var(--bad)}
-.st-free{color:var(--ok);font-weight:600}.st-busy{color:var(--bad);font-weight:600}
-@media(max-width:600px){.day{min-height:52px;font-size:11px}}
+dialog{border:1px solid var(--bd);border-radius:12px;background:var(--card);color:var(--tx);width:min(440px,calc(100vw - 24px));padding:16px}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+.f{display:flex;flex-direction:column;gap:8px}.err{color:var(--bad);font-size:13px;min-height:18px}
+.msg{padding:8px 10px;border-radius:6px;margin-bottom:10px;border:1px solid var(--ok);color:var(--ok)}
 </style>
 </head>
 <body>
 <main>
-<header><div><h1>DLF Meeting Room Scheduler</h1><div class="mu" id="who"></div></div><button id="out" hidden>Sign out</button></header>
-<nav id="nav" hidden><button id="tCal">Calendar</button><button id="tTime">Time view</button><button id="tBook">Book a room</button><button id="tAdm">Profile</button></nav>
+<header><div><h1>DLF Meeting Room Scheduler</h1><div class="mu" id="who"></div></div><div class="row" id="hb"></div></header>
 <div id="msg"></div>
-<section id="v"></section>
+<div class="card"><h2>Right now</h2><div class="rn" id="now"></div></div>
+<div class="card row" id="ctl"></div>
+<div id="v"></div>
+<div class="mu">Anyone can book a free slot. First come, first served. Only admins can change or cancel a booking.</div>
 </main>
+<dialog id="dlg"></dialog>
 <script>
 (function(){
 var MN=["January","February","March","April","May","June","July","August","September","October","November","December"];
-var S={me:null,rooms:[],bk:[],month:new Date(),sel:null,edit:null,tab:"cal",now:null,room:"all",fs:"09:00",fe:"10:00"};
-S.month.setDate(1);
-var A=420,Z=1260,W=Z-A;
-var $=function(i){return document.getElementById(i)};
+var S={me:null,rooms:[],now:null,view:"day",cur:null,room:"all",bk:[],tb:[]};
+var A=420,Z=1260,W=Z-A,$=function(i){return document.getElementById(i)};
 function el(t,a,k){var e=document.createElement(t);if(a)for(var x in a){if(x==="text")e.textContent=a[x];else if(x==="class")e.className=a[x];else e.setAttribute(x,a[x])}(k||[]).forEach(function(c){e.appendChild(c)});return e}
 function pad(n){return n<10?"0"+n:""+n}
-function mkey(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)}
-function today(){return S.now.d}
-function fmt(s){var p=s.split("-");return p[2]+" "+MN[+p[1]-1].slice(0,3)+" "+p[0]}
+function ds(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
+function pd(k){return new Date(k+"T00:00:00")}
+function addDays(k,n){var d=pd(k);d.setDate(d.getDate()+n);return ds(d)}
+function monday(k){var d=pd(k);d.setDate(d.getDate()-((d.getDay()+6)%7));return ds(d)}
+function fmt(k){var d=pd(k);return d.toLocaleDateString("en-IN",{weekday:"short",day:"numeric",month:"short",year:"numeric"})}
 function mins(t){return parseInt(t.slice(0,2),10)*60+parseInt(t.slice(3),10)}
-function f12(t){var h=parseInt(t.slice(0,2),10),m=t.slice(3);return ((h+11)%12+1)+":"+m+" "+(h>=12?"PM":"AM")}
-function addDays(k,n){var d=new Date(k+"T00:00:00");d.setDate(d.getDate()+n);return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
-function say(t,err){var m=$("msg");m.textContent="";if(t){m.appendChild(el("div",{class:"msg"+(err?" err":""),text:t}));setTimeout(function(){m.textContent=""},5000)}}
-async function api(m,u,b){var r=await fetch(u,{method:m,headers:{"Content-Type":"application/json"},body:b?JSON.stringify(b):undefined});var j=await r.json().catch(function(){return{}});if(!r.ok){var e=new Error(j.error||"Something went wrong");e.status=r.status;throw e}return j}
-async function boot(){
-  var j=await api("GET","/api/me");S.me=j.user;S.rooms=j.rooms;S.now=j.now;if(!S.sel)S.sel=j.now.d;
-  $("who").textContent=S.me?S.me.name+" · "+S.me.email+" · "+(S.me.admin?"Admin":"Member"):"DLF";
-  $("out").hidden=$("nav").hidden=!S.me;
-  if(!S.me)return rAuth();
-  await load();render();
+function f12(t){var h=parseInt(t.slice(0,2),10);return ((h+11)%12+1)+":"+t.slice(3)+(h>=12?" PM":" AM")}
+function say(t,err){var m=$("msg");m.textContent="";if(t){var d=el("div",{class:"msg",text:t});if(err){d.style.color="var(--bad)";d.style.borderColor="var(--bad)"}m.appendChild(d);setTimeout(function(){m.textContent=""},5000)}}
+async function api(m,u,b){var r=await fetch(u,{method:m,headers:{"Content-Type":"application/json"},body:b?JSON.stringify(b):undefined});var j=await r.json().catch(function(){return{}});if(!r.ok)throw new Error(j.error||"Something went wrong");return j}
+function rng(){var c=S.cur;if(S.view==="day")return[c,c];if(S.view==="week"){var m=monday(c);return[m,addDays(m,6)]}
+  var d=pd(c);var f=new Date(d.getFullYear(),d.getMonth(),1),l=new Date(d.getFullYear(),d.getMonth()+1,0);return[ds(f),ds(l)]}
+async function load(){var r=rng(),t=S.now.d;try{S.bk=await api("GET","/api/bookings?from="+r[0]+"&to="+r[1]);
+  S.tb=(t>=r[0]&&t<=r[1])?S.bk.filter(function(b){return b.date===t}):await api("GET","/api/bookings?from="+t+"&to="+t)}catch(e){say(e.message,true)}}
+async function boot(){var j=await api("GET","/api/me");S.me=j.user;S.rooms=j.rooms;S.now=j.now;if(!S.cur)S.cur=j.now.d;await load();render()}
+function vis(d){return S.bk.filter(function(b){return b.date===d&&(S.room==="all"||b.room===S.room)})}
+function chip(b,full){var c=el("button",{class:"chip",text:b.start+" "+(full?b.room+" · ":"")+b.title});c.onclick=function(e){e.stopPropagation();openDetails(b)};return c}
+function render(){
+  $("who").textContent=S.me?"Admin: "+S.me.name+" ("+S.me.email+")":"Booking as guest";
+  var hb=$("hb");hb.textContent="";
+  if(S.me){var ad=el("button",{text:"Manage admins"});ad.onclick=openAdmins;var lo=el("button",{text:"Log out"});lo.onclick=async function(){await api("POST","/api/logout");S.me=null;render()};hb.appendChild(ad);hb.appendChild(lo)}
+  else{var li=el("button",{text:"Admin login"});li.onclick=openLogin;hb.appendChild(li)}
+  /* right now */
+  var n=$("now");n.textContent="";var nm=mins(S.now.t);
+  S.rooms.forEach(function(r){var bs=S.tb.filter(function(b){return b.room===r}),cur=bs.filter(function(b){return mins(b.start)<=nm&&nm<mins(b.end)})[0],nx=bs.filter(function(b){return mins(b.start)>nm})[0],t,c="ok";
+    if(cur){c="no";t="Busy until "+f12(cur.end)+" ("+cur.title+")"}else t=nx?"Free until "+f12(nx.start):"Free for the rest of the day";
+    n.appendChild(el("div",{},[el("b",{text:r}),el("div",{class:c,text:t})]))});
+  /* controls */
+  var c=$("ctl");c.textContent="";
+  var pv=el("button",{text:"←"}),td=el("button",{text:"Today"}),nx2=el("button",{text:"→"});
+  function go(k){S.cur=k;load().then(render)}
+  function shift(s){if(S.view==="day")go(addDays(S.cur,s));else if(S.view==="week")go(addDays(S.cur,7*s));else{var d=pd(S.cur);go(ds(new Date(d.getFullYear(),d.getMonth()+s,1)))}}
+  pv.onclick=function(){shift(-1)};nx2.onclick=function(){shift(1)};td.onclick=function(){go(S.now.d)};
+  var lbl=S.view==="day"?fmt(S.cur):S.view==="week"?fmt(monday(S.cur))+" – "+fmt(addDays(monday(S.cur),6)):MN[pd(S.cur).getMonth()]+" "+pd(S.cur).getFullYear();
+  c.appendChild(pv);c.appendChild(td);c.appendChild(nx2);c.appendChild(el("b",{text:lbl}));
+  ["day","week","month"].forEach(function(v){var b=el("button",{text:v[0].toUpperCase()+v.slice(1),class:S.view===v?"on":""});b.onclick=function(){S.view=v;load().then(render)};c.appendChild(b)});
+  var sel=el("select");[["all","All rooms"]].concat(S.rooms.map(function(r){return[r,r]})).forEach(function(o){var op=el("option",{text:o[1],value:o[0]});if(o[0]===S.room)op.selected=true;sel.appendChild(op)});
+  sel.onchange=function(){S.room=sel.value;render()};c.appendChild(sel);
+  var nb=el("button",{class:"p",text:"+ New booking"});nb.onclick=function(){openBook({date:S.cur<S.now.d?S.now.d:S.cur})};c.appendChild(nb);
+  var v=$("v");v.textContent="";
+  if(S.view==="day")vDay(v);else if(S.view==="week")vWeek(v);else vMonth(v);
 }
-async function load(){try{S.bk=await api("GET","/api/bookings?month="+mkey(S.month))}catch(e){if(e.status===401)return boot();say(e.message,true)}}
-async function setDay(k){S.sel=k;if(k.slice(0,7)!==mkey(S.month)){S.month=new Date(k+"T00:00:00");S.month.setDate(1);await load()}}
-function byDay(d,room){return S.bk.filter(function(b){return b.date===d&&(!room||room==="all"||b.room===room)}).sort(function(a,b){return a.start<b.start?-1:1})}
-function freeFor(date,s,e,skip){var
+function vDay(v){var card=el("div",{class:"card"}),sc=el("div",{class:"scr"}),inn=el("div",{style:"min-width:660px"}),hd=el("div",{class:"tlh"});
+  for(var h=7;h<=21;h+=2)hd.appendChild(el("span",{style:"left:"+((h*60-A)/W*100)+"%",text:((h+11)%12+1)+(h>=12?"p":"a")}));inn.appendChild(hd);
+  var nm=mins(S.now.t);
+  S.rooms.filter(function(r){return S.room==="all"||r===S.room}).forEach(function(r){var trk=el("div",{class:"trk"});
+    S.bk.filter(function(b){return b.date===S.cur&&b.room===r}).forEach(function(b){var l=Math.max(mins(b.start),A),rr=Math.min(mins(b.end),Z);if(rr<=l)return;
+      var bar=el("button",{class:"bar",title:b.start+"–"+b.end+" "+b.title,style:"left:"+((l-A)/W*100)+"%;width:"+((rr-l)/W*100)+"%",text:b.start+" "+b.title});bar.onclick=function(){openDetails(b)};trk.appendChild(bar)});
+    if(S.cur===S.now.d&&nm>=A&&nm<=Z)trk.appendChild(el("div",{class:"nowl",style:"left:"+((nm-A)/W*100)+"%"}));
+    inn.appendChild(el("div",{class:"tlr"},[el("div",{class:"tn",text:r}),trk]))});
+  sc.appendChild(inn);card.appendChild(el("h2",{text:"Timeline · 7 AM – 9 PM"}));card.appendChild(sc);v.appendChild(card);
+  var l=el("div",{class:"card"});l.appendChild(el("h2",{text:"Meetings on "+fmt(S.cur)}));var list=vis(S.cur);
+  if(!list.length)l.appendChild(el("div",{class:"mu",text:"No meetings booked."}));list.forEach(function(b){l.appendChild(chip(b,true))});v.appendChild(l)}
+function vWeek(v){var sc=el("div",{class:"scr"}),g=el("div",{class:"wk"}),m=monday(S.cur);
+  for(var i=0;i<7;i++){(function(k){var c=el("div",{class:"cell"+(k===S.now.d?" t":"")},[]),h=el("b",{text:pd(k).toLocaleDateString("en-IN",{weekday:"short",day:"numeric",month:"short"})});
+    h.onclick=function(){S.cur=k;S.view="day";load().then(render)};c.appendChild(h);vis(k).forEach(function(b){c.appendChild(chip(b,true))});g.appendChild(c)})(addDays(m,i))}
+  sc.appendChild(g);v.appendChild(sc)}
+function vMonth(v){var sc=el("div",{class:"scr"}),g=el("div",{class:"mo"}),d=pd(S.cur),mo=d.getMonth(),m=monday(ds(new Date(d.getFullYear(),mo,1)));
+  ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].forEach(function(x){g.appendChild(el("div",{class:"dh",text:x}))});
+  for(var i=0;i<42;i++){(function(k){var dd=pd(k);if(i>=35&&dd.getMonth()!==mo)return;
+    var c=el("div",{class:"cell"+(k===S.now.d?" t":"")+(dd.getMonth()!==mo?" x":"")}),h=el("b",{text:""+dd.getDate()});
+    h.onclick=function(){S.cur=k;S.view="day";load().then(render)};c.appendChild(h);var l=vis(k);
+    if(dd.getMonth()===mo){l.slice(0,3).forEach(function(b){c.appendChild(chip(b,true))});if(l.length>3)c.appendChild(el("div",{class:"mu",text:"+"+(l.length-3)+" more"}))}
+    g.appendChild(c)})(addDays(m,i))}
+  sc.appendChild(g);v.appendChild(sc)}
+
+/* ---------- dialogs ---------- */
+function dlgOpen(nodes){var d=$("dlg");d.textContent="";nodes.forEach(function(n){d.appendChild(n)});if(!d.open)d.showModal();return d}
+function closeD(){$("dlg").close()}
+function openDetails(b){var rows=[el("h2",{text:b.title}),el("div",{text:b.room}),el("div",{text:fmt(b.date)+" · "+f12(b.start)+" – "+f12(b.end)}),el("div",{class:"mu",text:"Booked by "+b.by_name}),el("div",{text:b.notes||"",style:"margin-top:6px"})];
+  var a=el("div",{class:"row",style:"margin-top:12px"}),cl=el("button",{text:"Close"});cl.onclick=closeD;
+  if(S.me){var e=el("button",{text:"Edit"}),x=el("button",{class:"d",text:"Cancel booking"});e.onclick=function(){openBook(b)};
+    x.onclick=async function(){if(!confirm("Cancel this booking?"))return;try{await api("DELETE","/api/bookings/"+b.id);closeD();await load();render();say("Booking cancelled.")}catch(er){say(er.message,true)}};a.appendChild(e);a.appendChild(x)}
+  else rows.push(el("div",{class:"mu",style:"margin-top:8px",text:"This slot is booked. Only an admin can change or cancel it."}));
+  a.appendChild(cl);rows.push(a);dlgOpen(rows)}
+function openBook(b){var id=b.id,room=el("select");S.rooms.forEach(function(r){var o=el("option",{text:r,value:r});if(r===(b.room||(S.room!=="all"?S.room:"")))o.selected=true;room.appendChild(o)});
+  var ti=el("input",{type:"text",maxlength:"120",value:b.title||"",placeholder:"e.g. Weekly sync"}),by=el("input",{type:"text",maxlength:"60",value:b.by_name||(S.me?S.me.name:""),placeholder:"Your name"}),
+  date=el("input",{type:"date",min:S.now.d,value:b.date||S.now.d}),st=el("input",{type:"time",value:b.start||"10:00"}),en=el("input",{type:"time",value:b.end||"11:00"}),
+  nt=el("textarea",{maxlength:"300",rows:"2"}),err=el("div",{class:"err"});nt.value=b.notes||"";
+  var save=el("button",{class:"p",text:id?"Save changes":"Save booking"}),cx=el("button",{text:"Close"});cx.onclick=closeD;
+  save.onclick=async function(){err.textContent="";try{await api(id?"PUT":"POST",id?"/api/bookings/"+id:"/api/bookings",{room:room.value,title:ti.value,by:by.value,date:date.value,start:st.value,end:en.value,notes:nt.value});
+    closeD();S.cur=date.value;await load();render();say(id?"Booking updated.":"Room booked.")}catch(e){err.textContent=e.message}};
+  dlgOpen([el("h2",{text:id?"Edit booking":"New booking"}),el("div",{class:"f"},[el("label",{text:"Room"},[room]),el("label",{text:"Meeting title"},[ti]),el("label",{text:"Booked by"},[by]),
+    el("label",{text:"Date"},[date]),el("div",{class:"row"},[el("label",{text:"Start"},[st]),el("label",{text:"End"},[en])]),el("label",{text:"Notes"},[nt]),err,el("div",{class:"row"},[save,cx])])])}
+function openLogin(){var reg=false,nm=el("input",{type:"text",placeholder:"Full name"}),em=el("input",{type:"email",placeholder:"Admin email"}),pw=el("input",{type:"password",placeholder:"Password (8+ characters)"}),
+  err=el("div",{class:"err"}),h=el("h2",{text:"Admin login"}),go=el("button",{class:"p",text:"Sign in"}),sw=el("button",{text:"First time? Set password"}),cx=el("button",{text:"Cancel"});
+  function paint(){h.textContent=reg?"Set admin password":"Admin login";go.textContent=reg?"Set password":"Sign in";sw.textContent=reg?"Have a password? Sign in":"First time? Set password";nm.style.display=reg?"":"none"}
+  sw.onclick=function(){reg=!reg;paint()};cx.onclick=closeD;
+  go.onclick=async function(){err.textContent="";try{await api("POST",reg?"/api/register":"/api/login",{name:nm.value,email:em.value,password:pw.value});closeD();await boot()}catch(e){err.textContent=e.message}};
+  pw.onkeydown=function(e){if(e.key==="Enter")go.onclick()};
+  dlgOpen([h,el("div",{class:"f"},[nm,em,pw,err,el("div",{class:"row"},[go,cx]),sw])]);paint()}
+async function openAdmins(){var d;try{d=await api("GET","/api/admins")}catch(e){return say(e.message,true)}
+  var nodes=[el("h2",{text:"Admins"}),el("div",{class:"mu",text:"Primary admin: "+(d.owner||"not set")+". A new admin uses 'First time? Set password' on the login screen."})];
+  d.admins.forEach(function(a){var r=el("div",{class:"row",style:"justify-content:space-between;margin-top:6px"},[el("span",{text:a})]),x=el("button",{class:"d",text:"Remove"});
+    x.onclick=async function(){try{await api("DELETE","/api/admins/"+encodeURIComponent(a));openAdmins()}catch(er){say(er.message,true)}};r.appendChild(x);nodes.push(r)});
+  if(!d.admins.length)nodes.push(el("div",{class:"mu",style:"margin-top:6px",text:"No additional admins yet."}));
+  var inp=el("input",{type:"email",placeholder:"name@company.com"}),add=el("button",{class:"p",text:"Add admin"}),cl=el("button",{text:"Close"}),err=el("div",{class:"err"});
+  add.onclick=async function(){try{await api("POST","/api/admins",{email:inp.value});openAdmins()}catch(e){err.textContent=e.message}};cl.onclick=closeD;
+  nodes.push(el("div",{class:"row",style:"margin-top:10px"},[inp,add]));nodes.push(err);nodes.push(cl);dlgOpen(nodes)}
+setInterval(function(){if($("dlg").open)return;var a=document.activeElement;if(a&&(a.tagName==="INPUT"||a.tagName==="SELECT"))return;api("GET","/api/me").then(function(j){S.now=j.now;S.me=j.user;return load()}).then(render).catch(function(){})},60000);
+boot().catch(function(e){say(e.message,true)});
+})();
+</script>
+</body>
+</html>

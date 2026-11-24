@@ -1,4 +1,4 @@
-const express = require('express'), crypto = require('crypto'), { Pool } = require('pg');
+const express = require('express'), crypto = require('crypto'), path = require('path'), { Pool } = require('pg');
 const ROOMS = ['Marina', 'Elliot', 'Kovalam', 'Auroville', 'Meeting Room 5'];
 const TZ = process.env.APP_TZ || 'Asia/Kolkata';
 const SECRET = process.env.SECRET || 'dev-secret-change-me';
@@ -103,7 +103,9 @@ app.delete('/api/admins/:email', w(async (req, res) => {
   if (e === BOSS) return bad(res, 'The primary admin cannot be removed.');
   await q('delete from admins where email=$1', [e]); res.json({ ok: true });
 }));
-app.use(express.static('public'));
+
+app.use(express.static(path.join(__dirname, 'public')));
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 
 (async () => {
   await q(`create table if not exists users(email text primary key,name text not null,salt text not null,hash text not null);

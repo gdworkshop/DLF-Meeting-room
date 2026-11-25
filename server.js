@@ -1,5 +1,5 @@
 const express = require('express'), crypto = require('crypto'), path = require('path'), { Pool } = require('pg');
-const ROOMS = ['Marina', 'Elliot', 'Kovalam', 'Auroville', 'Meeting Room 5'];
+const ROOMS = ['Marina', 'Elliot', 'Kovalam', 'Auroville', 'Pebble', 'Coral'];
 const TZ = process.env.APP_TZ || 'Asia/Kolkata';
 const SECRET = process.env.SECRET || 'dev-secret-change-me';
 const BOSS = (process.env.ADMIN_EMAIL || '').trim().toLowerCase();
